@@ -138,6 +138,53 @@ function make_nginx() {
   run_ok "END"
 }
 
+function post_install_nginx() {
+    [ $# -eq 0 ] && { run_error "Usage: post_install_nginx <destination>"; exit; } 
+    local NGINX=${1}
+    local CPUS=$(grep ^processor /proc/cpuinfo | wc -l)
+
+    # Set main nginx config file 
+    mkdir -p ${NGINX}sites-enabled/
+    mkdir -p ${NGINX}sites-available/
+    mkdir -p ${NGINX}conf.d/
+    # Copy main config file
+    cp -f ${SCRIPT_PATH}config/nginx/nginx.conf ${NGINX}nginx.conf
+    chmod +x ${NGINX}nginx.conf
+    # Set: a default site
+    cp -f ${SCRIPT_PATH}config/nginx/site.conf ${NGINX}sites-enabled/site.conf
+    chmod +x ${NGINX}sites-enabled/site.conf
+    # Set: init file
+    cp -f ${SCRIPT_PATH}config/nginx/nginx /etc/init.d/nginx
+    chmod +x /etc/init.d/nginx
+    #chown root:root /etc/init.d/nginx
+    
+    # Customize: main /etc/nginx/nginx.conf
+      # Prepend: number of cores
+      sed -i -e "1iworker_processes ${CPUS}" ${NGINX}nginx.conf
+      # Append: size of the queue for connections waiting for acceptance /etc/sysctl.conf
+      # cat "net.core.somaxconn = 65536" >> /etc/sysctl.conf
+      # cat "net.ipv4.tcp_max_tw_buckets = 1440000" >> /etc/sysctl.conf
+      # cat "net.ipv4.tcp_fin_timeout 15" >> /etc/sysctl.conf
+      # cat "net.ipv4.tcp_window_scaling = 1" >> /etc/sysctl.conf
+      # cat "net.ipv4.tcp_max_syn_backlog = 3240000" >> /etc/sysctl.conf
+      # Append: File Descriptors
+      # cat "soft nofile 4096" >> /etc/security/limits.conf
+      # cat "hard nofile 4096" >> /etc/security/limits.conf
+      
+      
+      
+
+
+    # Set website config 
+    # sed -i -e '1iworker_processes 2\' xx.mi 
+    
+    
+    # Install modules (the ones that don't install via include) 
+
+
+    # Set init.d service
+}
+
 
 function clean() {
   rm -Rf "${ROOT}brotli"

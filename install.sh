@@ -60,7 +60,7 @@ DOTYPE=${2}
 
 
 function deps() {
-    local -A DEPS_INSTALL="build-essential build-dep libpcre3 libpcre3-dev libpng-dev zlib1g-dev libssl-dev openssl git autoconf libtool tar unzip automake xutils-dev"
+    local -A DEPS_INSTALL="build-essential build-dep libreadline-dev libncurses5-dev libpcre3-dev libpng-dev zlib1g-dev libssl-dev openssl git autoconf perl libtool tar unzip automake xutils-dev"
     # Install Deps
     show_yellow "Check" "system dependencies"
     ## 
@@ -71,7 +71,7 @@ function deps() {
         DEPS_INSTALL="${DEPS_INSTALL} python2.7 python2.7-dev"
     }
     # Install
-    apt-get install ${DEPS_INSTALL}
+    apt-get install -y ${DEPS_INSTALL}
 
     # Install: LuaJIT, PCRE, ZLIB, OpenSSL :: mandatory
     ./app/installers/luajit.sh ${VERSION['luajit']}
@@ -99,8 +99,10 @@ function configure() {
     done
 }
 function compile() {
-    # Configur nginx
-    make_nginx "$DEFAULT_CONFIGURE_PARAMS $NGINX_CONFIGURE_PARAMS"
+    # Make nginx
+    #make_nginx "$DEFAULT_CONFIGURE_PARAMS $NGINX_CONFIGURE_PARAMS"
+    # Config the service
+    post_install_nginx ${NGINX_USE_PATH}
 }
 
 

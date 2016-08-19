@@ -7,6 +7,7 @@ declare -A SCRIPT_PATH="/lab/m0/nginx-perfromance-web/"
 declare -A ROOT="/home/d3x/tests/" #/opt
 # NGINX_PATH:: path where nginx will be located. Default is /usr/local/nginx -- don't forget trailing /
 declare NGINX_PATH="/usr/local/nginx/"
+declare NGINX_USE_PATH="/etc/nginx/"
 
 
 

@@ -24,3 +24,8 @@ chmod +x install.sh
 
 # Configs
 https://www.nginx.com/resources/admin-guide/installing-nginx-open-source/
+
+## Configuration files
+
+config/nginx/nginx.conf --> /etc/nginx/
+config/nginx/site_nginx.conf --> /etc/nginx/sites-enabled/
