@@ -97,7 +97,7 @@ function configure_nginx_patches() {
   local WORKDIR="${ROOT}nginx_patches/"
   local MODULE=${1}
   
-  [ -d "$WORKDIR${MODULE}" ] || mkdir $WORKDIR${MODULE}
+  [ -d "$WORKDIR${MODULE}" ] || mkdir -p $WORKDIR${MODULE}
   cd ${WORKDIR}
 
     for file in ${WORKDIR}/* ; do
