@@ -11,7 +11,6 @@ declare NGINX_USE_PATH="/etc/nginx/"
 declare NGINX_VERSION_NO=""
 declare NGINX_SERVER_URL="example.com" #
 
-
 declare -A CACHE="${ROOT}cache/"
 declare -A BUILD="${ROOT}build/" 
 

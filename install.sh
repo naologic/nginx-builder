@@ -32,8 +32,9 @@ if [ -z ${BUILD+x} ]; then show_red "Error" "BUILD system variable is not set! C
 show_green "OK"
 
 
-# Set: version
+# Set: version and dirs
 NGINX_VERSION_NO=$(cat /dev/urandom | tr -dc 'a-zA-Z0-9' | fold -w 32 | head -n 1)
+
 # run as root only
 if [[ $EUID -ne 0 ]] ; then
     run_error "This script must be run with root access\e[49m"
@@ -57,9 +58,9 @@ DOOPT=${1}
 DOTYPE=${2}
 
 
-[ -d "$ROOT" ] || mkdir $ROOT
-[ -d "$CACHE" ] || mkdir $CACHE
-[ -d "$BUILD" ] || mkdir $BUILD
+[ -d "$ROOT" ] || mkdir -p $ROOT
+[ -d "$CACHE" ] || mkdir -p $CACHE
+[ -d "$BUILD" ] || mkdir -p $BUILD
 
 
 function deps() {
@@ -101,12 +102,10 @@ function download() {
 function configure() {
     # Unzip: nginx
     # Configure || Make: nginx modules
-    #mkdir -p ${ROOT}nginx_modules/    
     for i in ${NGINX_INSTALL_MODULES[*]}
     do 
         configure_nginx_module $i
     done
-    #mkdir -p ${ROOT}nginx_lua_dynamic_modules/
     # Configure || Make: nginx modules
     for i in ${NGINX_LUA_MODULES[*]}
     do 
