@@ -76,7 +76,7 @@ function deps() {
         DEPS_INSTALL="${DEPS_INSTALL} python2.7 python2.7-dev"
     }
     # Install
-    apt-get install -y ${DEPS_INSTALL}
+    apt-get install -y $DEPS_INSTALL
 
     # Install: LuaJIT, PCRE, ZLIB, OpenSSL :: mandatory
     ./app/installers/luajit.sh ${VERSION['luajit']}
