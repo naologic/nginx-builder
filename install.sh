@@ -21,6 +21,7 @@ declare -A OPTIONS_TYPE=(
     ['--steroids']="Nginx, Lua, Lua Scripts, JWT, Imagemagik, Compression"
 )
 
+
 ###############################################
   ############ >ADVANCED USERS< #############
 ###############################################
