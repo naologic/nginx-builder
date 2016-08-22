@@ -188,28 +188,13 @@ function post_install_nginx() {
     # Customize: main /etc/nginx/nginx.conf
       # Prepend: number of cores
       sed -i -e "1iworker_processes ${CPUS}" ${NGINX}nginx.conf
-      # Append: size of the queue for connections waiting for acceptance /etc/sysctl.conf
-      # echo "net.core.somaxconn = 65536" >> /etc/sysctl.conf
-      # echo "net.ipv4.tcp_max_tw_buckets = 1440000" >> /etc/sysctl.conf
-      # echo "net.ipv4.tcp_fin_timeout 15" >> /etc/sysctl.conf
-      # echo "net.ipv4.tcp_window_scaling = 1" >> /etc/sysctl.conf
-      # echo "net.ipv4.tcp_max_syn_backlog = 3240000" >> /etc/sysctl.conf
-      # Append: File Descriptors
-      # echo "soft nofile 4096" >> /etc/security/limits.conf
-      # echo "hard nofile 4096" >> /etc/security/limits.conf
+     
       
-      
-      
-
-
-    # Set website config 
-    # sed -i -e '1iworker_processes 2\' xx.mi 
-    
-    
     # Install modules (the ones that don't install via include) 
-
+    # TODO:: install lua modules (if needed)
 
     # Set init.d service
+    # TODO:: auto start
 }
 
 function create_installed_file() {
