@@ -65,7 +65,7 @@ DOTYPE=${2}
 
 
 function deps() {
-    local -A DEPS_INSTALL="build-essential libreadline-dev libncurses5-dev libpcre3-dev libpng-dev zlib1g-dev libssl-dev openssl git autoconf perl libtool tar unzip automake xutils-dev"
+    local -A DEPS_INSTALL="build-essential autogen automake autoconf autotools-dev libreadline-dev libncurses5-dev libpcre3-dev libpng-dev zlib1g-dev libssl-dev openssl git  perl libtool tar unzip  xutils-dev"
     # Install Deps
     show_yellow "Check" "system dependencies"
     ## 
