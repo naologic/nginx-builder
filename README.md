@@ -1,4 +1,4 @@
-### nginx installer
+# nginx installer
 
 This is a nginx installer + configuration + modules + patches for web speed and security.
 
@@ -9,8 +9,22 @@ all the modules, see the install files to disable them.
 
 This installer is for ```Ubuntu 14,15,16```
 
+## Dependencies
+_Run a update first just to be sure. Type ```locale``` and check config. AWS usually has this problem. Check on how to fix `fix/aws_locale.sh`_
 
-# Install 
+## Options
+- `--full`    _Install server and clean existing repos_ 
+- `--clean`   _Clean local files_ 
+- `--compile` _Compile from existing directories_ 
+- `--deps`    _Only dependencies_ 
+- `--down`    _Only download modules_ 
+## Server Configs
+- `--simple`     _Simple web server with perfromance modules and standard configuration_
+- `--simple_ssl` _Simple web server but with extra SSL features_
+- `--steroids`   _Nginx, Lua, Lua Scripts, JWT, Imagemagik, Compression_
+
+
+## Install 
 
 ``` 
 git clone https://github.com/gp187/nginx-builder
@@ -20,12 +34,12 @@ sudo ./install.sh --full --steroids
 ```
 
 
-# Modules
+## Modules
 ``` 
 This is where I got the modules from to import them in the builder https://github.com/agile6v/awesome-nginx
 ```
 
-# DEVMODE
+## DEVMODE
 _This is still in dev mode. Feel free to report bugs and use `ONLY` from `./install.sh`. I'm working on making it a service_ 
 
 
