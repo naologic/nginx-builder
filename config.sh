@@ -2,9 +2,9 @@
 
 
 # SCRIPT_PATH:: path to current script; VERY important
-declare -A SCRIPT_PATH="/lab/m0/nginx-perfromance-web/"
+declare -A SCRIPT_PATH="~/nginx-builder/"
 # ROOT:: path where all the compiling is done (this is NOT path to installed nginx)
-declare -A ROOT="/home/d3x/tests/" #/opt
+declare -A ROOT="~/nginx-build/" #/opt
 # NGINX_PATH:: path where nginx will be located. Default is /usr/local/nginx -- don't forget trailing /
 declare NGINX_PATH="/usr/local/nginx/"
 declare NGINX_USE_PATH="/etc/nginx/"
