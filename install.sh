@@ -21,6 +21,9 @@ declare -A OPTIONS_TYPE=(
     ['--steroids']="Nginx, Lua, Lua Scripts, JWT, Imagemagik, Compression"
 )
 
+###############################################
+  ############ >ADVANCED USERS< #############
+###############################################
 
 show_yellow "Test" "system variables and paths"
 if [ -z ${ROOT+x} ];  then show_red "Error" "ROOT system variable is not set! Check config.sh";  exit 1; fi
@@ -28,9 +31,9 @@ if [ -z ${CACHE+x} ]; then show_red "Error" "CACHE system variable is not set! C
 if [ -z ${BUILD+x} ]; then show_red "Error" "BUILD system variable is not set! Check config.sh"; exit 1; fi
 show_green "OK"
 
-###############################################
-###############################################
-###############################################
+
+# Set: version
+NGINX_VERSION_NO=$(cat /dev/urandom | tr -dc 'a-zA-Z0-9' | fold -w 32 | head -n 1)
 # run as root only
 if [[ $EUID -ne 0 ]] ; then
     run_error "This script must be run with root access\e[49m"
@@ -89,20 +92,35 @@ function download() {
     do 
        download_nginx_module $i
     done
+    # Download: ngnx libs
+    for i in ${NGINX_LUA_MODULES[*]}
+    do 
+       download_nginx_module $i
+    done
 }
 function configure() {
     # Unzip: nginx
-    # Configure || Make: nginx modules     
+    # Configure || Make: nginx modules
+    #mkdir -p ${ROOT}nginx_modules/    
     for i in ${NGINX_INSTALL_MODULES[*]}
     do 
         configure_nginx_module $i
     done
+    #mkdir -p ${ROOT}nginx_lua_dynamic_modules/
+    # Configure || Make: nginx modules
+    for i in ${NGINX_LUA_MODULES[*]}
+    do 
+        configure_lua_modules $i
+    done
+    
 }
 function compile() {
     # Make nginx
-    #make_nginx "$DEFAULT_CONFIGURE_PARAMS $NGINX_CONFIGURE_PARAMS"
+    make_nginx "$DEFAULT_CONFIGURE_PARAMS $NGINX_CONFIGURE_PARAMS"
     # Config the service
     post_install_nginx ${NGINX_USE_PATH}
+    # Create INSTALLED.md file 
+    create_installed_file
 }
 
 
@@ -112,52 +130,42 @@ function compile() {
 show_blue "Loading" "local libraries and preparing scrips"
 sleep 1
 
-
 ###############################################################
 case $DOTYPE in
     "--simple")
         show_blue "Install" "${OPTIONS_TYPE[${DOTYPE}]}"
         sleep 1
-            # Define: other dependencies to install because of these modules || NOT USED FOR NOW
-            NGINX_INSTALL_DEPS=("")
             # Define: modules to install
             NGINX_INSTALL_MODULES=(
                 "ngx_headers_more" "ngx_encrypted_session" "ngx_devel_kit" "ngx_mod_zip" 
-                "ngx_xss" "ngx_echo" "ngx_http_sysguard" "ngx_clojure" "ngx_memc" "ngx_lua" "ngx_pagespeed"
+                "ngx_xss" "ngx_echo"
             )
-            NGINX_INSTALL_LIBS=("lua_resty_http" "lua_resty_memcached" "lua_resty_jwt")
+            NGINX_LUA_MODULES=("lua_resty_http" "lua_resty_memcached" "lua_resty_jwt")
             # Nginx: params
             NGINX_CONFIGURE_PARAMS="--without-http_ssl_module"
         ;;
     "--simple_ssl")
             show_blue "Install" "${OPTIONS_TYPE[${DOTYPE}]}"
             sleep 1
-            # Define: other dependencies to install because of these modules
-            NGINX_INSTALL_DEPS=("brotli")
             # Define: modules to install
             NGINX_INSTALL_MODULES=(
-                "ngx_headers_more" "ngx_encrypted_session" "ngx_devel_kit" "ngx_brotli" "ngx_mod_zip" 
-                "ngx_xss" "ngx_echo" "ngx_http_sysguard" "ngx_clojure" "ngx_memc" "ngx_lua" "ngx_pagespeed"
+                "ngx_headers_more" "ngx_encrypted_session" "ngx_devel_kit" "ngx_mod_zip" 
+                "ngx_xss" "ngx_echo"
             )
-            NGINX_INSTALL_LIBS=("lua_resty_http" "lua_resty_memcached" "lua_resty_jwt")
+            NGINX_LUA_MODULES=("lua_resty_http" "lua_resty_memcached" "lua_resty_jwt")
             # Nginx: params
             NGINX_CONFIGURE_PARAMS="--with-http_ssl_module  --with-http_v2_module --with-google_perftools_module"
         ;;
     "--steroids")
         show_blue "Compiling" "${OPTIONS_TYPE[${DOTYPE}]}"
         sleep 1
-
-        # everything works here!!!!!! 
-            
-            # Define: other dependencies to install because of these modules
-            #NGINX_INSTALL_DEPS=("brotli")
             # Define: modules to install
             NGINX_INSTALL_MODULES=(
                 "ngx_headers_more" "ngx_encrypted_session" "ngx_devel_kit" "ngx_mod_zip" 
-                "ngx_xss" "ngx_echo" "ngx_clojure" "ngx_memc" "ngx_lua" "ngx_pagespeed" #"ngx_http_sysguard" 
+                "ngx_xss" "ngx_echo" "ngx_clojure" "ngx_memc" "ngx_lua" "ngx_pagespeed" "ngx_mongo" 
             )
-            NGINX_INSTALL_LIBS=("lua_resty_http" "lua_resty_memcached" "lua_resty_jwt")
-            NGINX_CONFIGURE_PARAMS="--with-threads --with-file-aio --with-stream_ssl_module --with-http_ssl_module  --with-http_v2_module --with-google_perftools_module"
+            NGINX_LUA_MODULES=("lua_resty_http" "lua_resty_memcached" "lua_resty_jwt" "lua_resty_hmac")
+            NGINX_CONFIGURE_PARAMS="--with-cc-opt=-Wno-error --with-threads --with-file-aio --with-stream_ssl_module --with-http_ssl_module --with-http_v2_module --with-google_perftools_module"
         ;;
     *)
         ./install.sh

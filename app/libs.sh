@@ -18,7 +18,7 @@ function download_nginx_module() { # OK
   local WORKDIR="${CACHE}nginx_modules/"
   local MODULE=${1}
   
-  [ -d "$WORKDIR" ] || mkdir $WORKDIR
+  [ -d "$WORKDIR" ] || mkdir -p $WORKDIR
   cd ${WORKDIR}
 
   if [ ${NGINX_MODULES[${MODULE}]} ] ; then
@@ -38,7 +38,6 @@ function download_nginx_module() { # OK
     run_error "${MODULE} module does not have a download route. Add in lib/nginx_modules.sh or remove ${MODULE} from NGINX_INSTALL_MODULES"
   fi
 }
-
 function configure_nginx_module() {
   # get them from cache and put them in work
   [ $# -eq 0 ] && { run_error "Usage: configure_nginx_module <module_name>"; exit; }  
@@ -48,6 +47,30 @@ function configure_nginx_module() {
   
   rm -rf ${WORKDIR}${MODULE}
   [ -d "$WORKDIR${MODULE}" ] || mkdir -p ${WORKDIR}${MODULE}
+  [ -d "${CACHEDIR}${MODULE}.zip" ] || download_nginx_module ${MODULE}
+  
+  show_blue_bg "Unpack" "${MODULE}"
+
+  cd ${WORKDIR}
+  unzip -q -o "${CACHEDIR}${MODULE}.zip" -d ${WORKDIR}${MODULE}
+  local ROOT_NAME=`find ${MODULE}/* | head -1`
+  
+  if [ -z ${ROOT_NAME+x} ]; then 
+      show_red "Error" "${MODULE} root name is not a dir. Check ${CACHEDIR}${MODULE}.zip"; exit 1; 
+    else
+      cp -RP ${WORKDIR}${ROOT_NAME}/* ${WORKDIR}${MODULE}
+      rm -rf ${WORKDIR}${ROOT_NAME}
+      run_ok
+  fi
+}
+function configure_lua_modules() {
+  # get them from cache and put them in work
+  [ $# -eq 0 ] && { run_error "Usage: configure_lua_modules <module_name>"; exit; }  
+  local WORKDIR="${ROOT}nginx_lua_dynamic_modules/"
+  local CACHEDIR="${CACHE}nginx_modules/"
+  local MODULE=${1}
+  
+  rm -rf ${WORKDIR}${MODULE} && mkdir -p ${WORKDIR}${MODULE}
   [ -d "${CACHEDIR}${MODULE}.zip" ] || download_nginx_module ${MODULE}
   
   show_blue_bg "Unpack" "${MODULE}"
@@ -147,9 +170,13 @@ function post_install_nginx() {
     mkdir -p ${NGINX}sites-enabled/
     mkdir -p ${NGINX}sites-available/
     mkdir -p ${NGINX}conf.d/
+    mkdir -p ${NGINX}lua_modules/
     # Copy main config file
     cp -f ${SCRIPT_PATH}config/nginx/nginx.conf ${NGINX}nginx.conf
     chmod +x ${NGINX}nginx.conf
+    # Copy lua modules
+    rm -rf ${NGINX}lua_modules/* && mkdir -p ${NGINX}lua_modules/
+    cp -Rf ${ROOT}nginx_lua_dynamic_modules/* ${NGINX}lua_modules/
     # Set: a default site
     cp -f ${SCRIPT_PATH}config/nginx/site.conf ${NGINX}sites-enabled/site.conf
     chmod +x ${NGINX}sites-enabled/site.conf
@@ -162,14 +189,14 @@ function post_install_nginx() {
       # Prepend: number of cores
       sed -i -e "1iworker_processes ${CPUS}" ${NGINX}nginx.conf
       # Append: size of the queue for connections waiting for acceptance /etc/sysctl.conf
-      # cat "net.core.somaxconn = 65536" >> /etc/sysctl.conf
-      # cat "net.ipv4.tcp_max_tw_buckets = 1440000" >> /etc/sysctl.conf
-      # cat "net.ipv4.tcp_fin_timeout 15" >> /etc/sysctl.conf
-      # cat "net.ipv4.tcp_window_scaling = 1" >> /etc/sysctl.conf
-      # cat "net.ipv4.tcp_max_syn_backlog = 3240000" >> /etc/sysctl.conf
+      # echo "net.core.somaxconn = 65536" >> /etc/sysctl.conf
+      # echo "net.ipv4.tcp_max_tw_buckets = 1440000" >> /etc/sysctl.conf
+      # echo "net.ipv4.tcp_fin_timeout 15" >> /etc/sysctl.conf
+      # echo "net.ipv4.tcp_window_scaling = 1" >> /etc/sysctl.conf
+      # echo "net.ipv4.tcp_max_syn_backlog = 3240000" >> /etc/sysctl.conf
       # Append: File Descriptors
-      # cat "soft nofile 4096" >> /etc/security/limits.conf
-      # cat "hard nofile 4096" >> /etc/security/limits.conf
+      # echo "soft nofile 4096" >> /etc/security/limits.conf
+      # echo "hard nofile 4096" >> /etc/security/limits.conf
       
       
       
@@ -185,6 +212,29 @@ function post_install_nginx() {
     # Set init.d service
 }
 
+function create_installed_file() {
+    # Create a config map with all the modules, so I know what's what
+    # file start
+    printf "# Nginx Build #${NGINX_VERSION_NO}\n\n" > ${NGINX_USE_PATH}INSTALLED.md
+    printf "### libraries installed from source\n\n" > ${NGINX_USE_PATH}INSTALLED.md
+    # versions
+    local VS="";
+    for i in "${!VERSION[@]}"
+      do
+        VS="${VS}$i ${VERSION[$i]}, "
+    done
+    printf "${VS}" >> ${NGINX_USE_PATH}INSTALLED.md
+    # modules installed
+    printf "### nginx modules compiled \n\n" >> ${NGINX_USE_PATH}INSTALLED.md
+      for i in "${!NGINX_INSTALL_MODULES[@]}"
+      do
+        printf ${NGINX_INSTALL_MODULES[$i]}':: '${NGINX_MODULES[${NGINX_INSTALL_MODULES[$i]}]}'\n' >> ${NGINX_USE_PATH}INSTALLED.md
+    done
+    printf "\n\n">> ${NGINX_USE_PATH}INSTALLED.md
+    
+    # other text? credits
+    cat ${SCRIPT_PATH}credits.txt >> ${NGINX_USE_PATH}INSTALLED.md
+}
 
 function clean() {
   rm -Rf "${ROOT}brotli"

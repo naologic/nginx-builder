@@ -1,0 +1,14 @@
+***********************
+Module list from: https://github.com/agile6v/awesome-nginx
+Thanks
+
+
+Made by:
+<Gabriel> https://github.com/Davidx7
+Feel free to:
+- suggest new modules 
+- build new configs
+- propose new configs (I can write em)
+- send me beer (Corona)
+
+***********************
