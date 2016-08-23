@@ -172,7 +172,7 @@ function post_install_nginx() {
     mkdir -p ${NGINX}conf.d/
     mkdir -p ${NGINX}lua_modules/
     # Copy main config file
-    cp -f ${SCRIPT_PATH}config/nginx/nginx.conf ${NGINX}nginx.conf
+    cp -f ${SCRIPT_PATH}config/* ${NGINX}
     chmod +x ${NGINX}nginx.conf
     # Copy lua modules
     rm -rf ${NGINX}lua_modules/* && mkdir -p ${NGINX}lua_modules/
@@ -187,7 +187,7 @@ function post_install_nginx() {
     
     # Customize: main /etc/nginx/nginx.conf
       # Prepend: number of cores
-      sed -i -e "1iworker_processes ${CPUS}" ${NGINX}nginx.conf
+      sed -i -e "1iworker_processes ${CPUS};" ${NGINX}nginx.conf
      
       
     # Install modules (the ones that don't install via include) 
@@ -195,6 +195,9 @@ function post_install_nginx() {
 
     # Set init.d service
     # TODO:: auto start
+
+    # Restart ctl daemon
+    systemctl daemon-reload
 }
 
 function create_installed_file() {
