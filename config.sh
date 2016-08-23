@@ -30,7 +30,7 @@ declare NGINX_CONFIGURE_PARAMS
 
 
 # Default: build params
-DEFAULT_CONFIGURE_PARAMS+="–prefix=${NGINX_PATH} --sbin-path=sbin/nginx --conf-path=nginx.conf --pid-path=logs/nginx.pid --user=www-data"
+DEFAULT_CONFIGURE_PARAMS+="--prefix=${NGINX_PATH} --sbin-path=sbin/nginx --conf-path=nginx.conf --pid-path=logs/nginx.pid --user=www-data"
 DEFAULT_CONFIGURE_PARAMS+="--with-pcre=../pcre --with-zlib=../zlib "
 DEFAULT_CONFIGURE_PARAMS+="--with-ipv6 --with-http_realip_module  --with-http_gzip_static_module --with-stream"
 
