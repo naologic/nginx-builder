@@ -39,6 +39,10 @@ sudo ./install.sh --full --steroids
 This is where I got the modules from to import them in the builder https://github.com/agile6v/awesome-nginx
 ```
 
+## Known Errors
+- `LC_ALL not set` _happens often on AWS instances. Make sure you set country or region you are in! [Fix is here](fix/aws_locale.sh)
+- `aclocal-1.15 command not found` _common error due to default `automake` package which is `1.4`. [Fix is Here](fix/aclocal.sh)
+
 ## DEVMODE
 _This is still in dev mode. Feel free to report bugs and use `ONLY` from `./install.sh`. I'm working on making it a service_ 
 
