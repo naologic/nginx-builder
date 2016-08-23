@@ -116,7 +116,7 @@ function configure() {
 }
 function compile() {
     # Make nginx
-    make_nginx "$DEFAULT_CONFIGURE_PARAMS $NGINX_CONFIGURE_PARAMS"
+    make_nginx ${VERSION['nginx']} "$DEFAULT_CONFIGURE_PARAMS $NGINX_CONFIGURE_PARAMS"
     # Config the service
     post_install_nginx ${NGINX_USE_PATH}
     # Create INSTALLED.md file 

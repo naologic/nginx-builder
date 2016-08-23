@@ -117,7 +117,7 @@ function make_nginx() {
   local MODULES="${ROOT}nginx_modules/"
   local FILENAME="nginx-${1}.tar.gz"
   local CONFIGURE_PARAMS=""
-  local DEFAULT_PARAMS=${1}
+  local DEFAULT_PARAMS=${2}
   local MODULE_PARAMS=""
 
   # clean

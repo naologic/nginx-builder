@@ -9,8 +9,6 @@ all the modules, see the install files to disable them.
 
 This installer is for ```Ubuntu 14,15,16```
 
-## Dependencies
-_Run a update first just to be sure. Type ```locale``` and check config. AWS usually has this problem. Check on how to fix `fix/aws_locale.sh`_
 
 ## Options
 - `--full`    _Install server and clean existing repos_ 
@@ -23,6 +21,8 @@ _Run a update first just to be sure. Type ```locale``` and check config. AWS usu
 - `--simple_ssl` _Simple web server but with extra SSL features_
 - `--steroids`   _Nginx, Lua, Lua Scripts, JWT, Imagemagik, Compression_
 
+## Configs
+_Paths and install locations are set in `config.sh`_
 
 ## Install 
 
