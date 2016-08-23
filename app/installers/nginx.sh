@@ -36,7 +36,7 @@ cd ${WORKDIR}
 
     if [ ! -s "${CACHE}${FILENAME}" ] ; then
             run_download "${FILENAME}"
-            wget -O ${CACHE}${FILENAME} -q http://nginx.org/download/nginx-${1}.tar.gz #&> /dev/null
+            wget -O ${CACHE}${FILENAME} -q http://nginx.org/download/${FILENAME} &> /dev/null
         else
             show_yellow "Cache" "found ${CACHE}${FILENAME}. Using from cache" 
     fi

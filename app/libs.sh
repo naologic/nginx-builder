@@ -141,7 +141,7 @@ function make_nginx() {
               local MODULE=$(basename $file)
               # Check: if module has extra things to run and run it(ex: pagespeed)
               # SH: takes 1 param:: path to install to
-              if [ -f "${SCRIPT_PATH}app/module_deps/${MODULE}-install.sh" ]; then
+              if [ -f ${SCRIPT_PATH}app/module_deps/${MODULE}-install.sh ]; then
                   . ${SCRIPT_PATH}app/module_deps/${MODULE}-install.sh $file/
               fi  
               # Set configure parameters
@@ -154,6 +154,7 @@ function make_nginx() {
     done
 
   cd ${WORKDIR}
+
   # make && make install
   ./configure ${DEFAULT_PARAMS}${CONFIGURE_PARAMS}
   make && make install
