@@ -7,7 +7,7 @@ Feel free to use, add, modify at will. Apart the normal build dependencies, it w
 (better for large files), and a number of ```nginx``` modules. If you don't plan on using
 all the modules, see the install files to disable them.  
 
-This installer is for ```Ubuntu 14,15,16```
+This installer is for ```Ubuntu 16.04```
 
 
 ## Options
