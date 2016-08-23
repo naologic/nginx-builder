@@ -154,7 +154,6 @@ function make_nginx() {
     done
 
   cd ${WORKDIR}
-
   # make && make install
   ./configure ${DEFAULT_PARAMS}${CONFIGURE_PARAMS}
   make && make install
