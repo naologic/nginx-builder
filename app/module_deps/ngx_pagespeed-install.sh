@@ -32,23 +32,29 @@ function ngx_pagespeed() {
 
     # Run
     run_install "${MAIN_DIR}:: required by pagespeed plugin"
-
-    if [ ! -s "${CACHE}${FILENAME}" ] ; then
+    # 1) get main pagespeed
+    if [ ! -f "${CACHE}ngx_pagespeed.zip" ] ; then
+            run_download "ngx_pagespeed.zip"        
+            wget -O ${CACHE}ngx_pagespeed.zip https://github.com/pagespeed/ngx_pagespeed/archive/release-${VERSION}-beta.zip &> /dev/null
+        else
+            show_yellow "Cache" "found ngx_pagespeed.zip. Using from cache" 
+    fi
+    # 2) get psol    
+    if [ ! -f "${CACHE}${FILENAME}" ] ; then
             run_download "${FILENAME}"
             wget -O ${CACHE}${FILENAME} wget https://dl.google.com/dl/page-speed/psol/${FILENAME} &> /dev/null
         else
             show_yellow "Cache" "found ${FILENAME}. Using from cache" 
     fi
-
-    cd ${WORKDIR}
-    if [ ! -s "${CACHE}${FILENAME}" ] ; then
-            run_error "${CACHE}${FILENAME} not found"
+    if [ ! -f "${CACHE}ngx_pagespeed.zip" ] ; then
+            run_error "${CACHE}ngx_pagespeed.zip not found"
             exit 1
         else
             cd ${WORKDIR}
             show_blue_bg "Unpack" "${FILENAME}"
-            tar -xzf "${CACHE}${FILENAME}" -C ${WORKDIR}
-            #cp -PR ${WORKDIR}${VERSION}/* ${WORKDIR}${MAIN_DIR}
+            tar -xzf "${CACHE}ngx_pagespeed.zip"
+            cp -PR ${WORKDIR}"ngx_pagespeed-release-1.11.33.3-beta"/* ${WORKDIR}
+            tar -xzf "${CACHE}${FILENAME}"
             run_ok  
     fi
 }
