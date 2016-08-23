@@ -46,7 +46,7 @@ if [ ! -s "${CACHE}${FILENAME}" ] ; then
         tar -xzf "${CACHE}${FILENAME}" -C ${WORKDIR}
         cp -PR ${WORKDIR}${MAIN_DIR}-${1}/* ${WORKDIR}
 
-        ./config --prefix=/usr # darwin64-x86_64-cc 
-        make && make install
+        ./config --prefix=/usr --openssldir=/etc/ssl --libdir=lib shared zlib-dynamic # darwin64-x86_64-cc 
+        make depend && make && make test && make install
         run_ok  
 fi
