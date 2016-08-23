@@ -30,14 +30,16 @@ function ngx_pagespeed() {
     local FILENAME="${VERSION}.tar.gz"
 
 
+    rm -rf ${WORKDIR}*
+    rm -rf ${CACHE}ngx_pagespeed.zip
     # Run
     run_install "${MAIN_DIR}:: required by pagespeed plugin"
+    
     # 1) get main pagespeed
+    wget -O ${CACHE}ngx_pagespeed.zip https://github.com/pagespeed/ngx_pagespeed/archive/release-${VERSION}-beta.zip &> /dev/null
     if [ ! -f "${CACHE}ngx_pagespeed.zip" ] ; then
-            run_download "ngx_pagespeed.zip"        
-            wget -O ${CACHE}ngx_pagespeed.zip https://github.com/pagespeed/ngx_pagespeed/archive/release-${VERSION}-beta.zip &> /dev/null
-        else
-            show_yellow "Cache" "found ngx_pagespeed.zip. Using from cache" 
+        show_red "Error" "Cannot find ngx_pagespeed source"
+        exit 1
     fi
     # 2) get psol    
     if [ ! -f "${CACHE}${FILENAME}" ] ; then
@@ -51,9 +53,10 @@ function ngx_pagespeed() {
             exit 1
         else
             cd ${WORKDIR}
+            show_blue_bg "Unpack" "ngx_pagespeed.zip"            
+            unzip ${CACHE}ngx_pagespeed.zip &> /dev/null
+            cp -PR ${WORKDIR}"ngx_pagespeed-release-1.11.33.3-beta"/* ${WORKDIR} &> /dev/null
             show_blue_bg "Unpack" "${FILENAME}"
-            tar -xzf "${CACHE}ngx_pagespeed.zip"
-            cp -PR ${WORKDIR}"ngx_pagespeed-release-1.11.33.3-beta"/* ${WORKDIR}
             tar -xzf "${CACHE}${FILENAME}"
             run_ok  
     fi
