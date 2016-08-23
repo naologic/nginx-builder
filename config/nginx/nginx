@@ -28,7 +28,7 @@ PS=${PS:-"nginx"}                             # process name
 DESCRIPTION=${DESCRIPTION:-"Nginx Server..."} # process description
 NGINXPATH=${NGINXPATH:-/usr/local/nginx}      # root path where installed
 DAEMON=${DAEMON:-$NGINXPATH/sbin/nginx}       # path to daemon binary
-NGINX_CONF_FILE=${NGINX_CONF_FILE:-$NGINXPATH/conf/nginx.conf} # config file path
+NGINX_CONF_FILE=${NGINX_CONF_FILE:-/etc/nginx/nginx.conf} # config file path
 
 PIDNAME=${PIDNAME:-"nginx"}                   # lets you do $PS-slave
 PIDFILE=${PIDFILE:-$PIDNAME.pid}              # pid file
