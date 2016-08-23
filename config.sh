@@ -3,6 +3,7 @@
 
 # SCRIPT_PATH:: path to current script; VERY important
 declare -A SCRIPT_PATH=$(eval echo ~${SUDO_USER})"/nginx-builder/"
+
 # ROOT:: path where all the compiling is done (this is NOT path to installed nginx)
 declare -A ROOT=$(eval echo ~${SUDO_USER})"/nginx-build/" #/opt
 # NGINX_PATH:: path where nginx will be located. Default is /usr/local/nginx -- don't forget trailing /
