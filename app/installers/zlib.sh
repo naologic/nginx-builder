@@ -30,7 +30,7 @@ run_install "${MAIN_DIR}-${1}:: required by NGINX Gzip module for headers compre
 
 if [ ! -s "${CACHE}${FILENAME}" ] ; then
         run_download "${FILENAME}"
-        wget -O ${CACHE}${FILENAME} wget http://zlib.net/${FILENAME} &> /dev/null
+        wget -O ${CACHE}${FILENAME} http://zlib.net/${FILENAME} &> /dev/null
     else
         show_yellow "Cache" "found ${FILENAME}. Using from cache" 
 fi
