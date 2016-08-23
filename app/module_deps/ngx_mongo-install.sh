@@ -1,1 +1,1 @@
-apt-get install -y libyajl-dev
+apt-get install -y libyajl-dev &> /dev/null
