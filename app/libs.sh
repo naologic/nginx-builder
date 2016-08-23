@@ -171,6 +171,7 @@ function post_install_nginx() {
     mkdir -p ${NGINX}sites-available/
     mkdir -p ${NGINX}conf.d/
     mkdir -p ${NGINX}lua_modules/
+    mkdir -p /var/log/nginx #logs
     # Copy main config file
     cp -f ${SCRIPT_PATH}config/* ${NGINX}
     chmod +x ${NGINX}nginx.conf
@@ -196,6 +197,8 @@ function post_install_nginx() {
     # Set init.d service
     # TODO:: auto start
 
+    # Update.rc
+    update-rc.d -f nginx defaults
     # Restart ctl daemon
     systemctl daemon-reload
 }
