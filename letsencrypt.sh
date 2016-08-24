@@ -7,6 +7,8 @@
 apt-get install -y letsencrypt 
 
 function lets_generate() {
+    # I need port :80
+    service nginx stop    
     # Run: generate certificate 
     letsencrypt certonly --standalone -d ${NGINX_SERVER_URL} -d www.${NGINX_SERVER_URL}
 }
@@ -15,3 +17,6 @@ function lets_update() {
     letsencrypt renew
     service nginx start
 }
+
+lets_generate
+lets_update
