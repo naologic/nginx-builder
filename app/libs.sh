@@ -172,24 +172,37 @@ function post_install_nginx() {
     mkdir -p ${NGINX}conf.d/
     mkdir -p ${NGINX}lua_modules/
     mkdir -p /var/log/nginx #logs
-    # Copy main config file
-    cp -f ${SCRIPT_PATH}config/* ${NGINX}
-    chmod +x ${NGINX}nginx.conf
+
     # Copy lua modules
     rm -rf ${NGINX}lua_modules/* && mkdir -p ${NGINX}lua_modules/
     cp -Rf ${ROOT}nginx_lua_dynamic_modules/* ${NGINX}lua_modules/
+
+    # Copy main config file
+    cp -f ${SCRIPT_PATH}config/* ${NGINX}
+    chmod +x ${NGINX}nginx.conf
+      # Paths
+      sed -i -e "s|\$NGINX_PATH|${NGINX_PATH}|g" ${NGINX}nginx.conf
+      # Cores
+      sed -i -e "s|\$CPUS|${CPUS}|g" ${NGINX}nginx.conf
+      
+    
     # Set: a default site
     cp -f ${SCRIPT_PATH}config/nginx/site.conf ${NGINX}sites-enabled/site.conf
     chmod +x ${NGINX}sites-enabled/site.conf
+      sed -i -e "s|\$server_name|${NGINX_SERVER_URL}|g" ${NGINX}sites-enabled/site.conf
+      sed -i -e "s|\$server_port|${NGINX_SERVER_PORT}|g" ${NGINX}sites-enabled/site.conf
+      
     # Set: init file
     cp -f ${SCRIPT_PATH}config/nginx/nginx /etc/init.d/nginx
     chmod +x /etc/init.d/nginx
-    #chown root:root /etc/init.d/nginx
-    
-    # Customize: main /etc/nginx/nginx.conf
-      # Prepend: number of cores
-      sed -i -e "1iworker_processes ${CPUS};" ${NGINX}nginx.conf
-     
+      # Paths 
+        sed -i -e "s|\$NGINX_PATH|${NGINX_PATH}|g" ${NGINX}nginx.conf
+        sed -i -e "s|\$NGINX_USE_PATH|${NGINX_USE_PATH}|g" ${NGINX}nginx.conf
+
+
+    # Service file for nginx
+      cp -f ${SCRIPT_PATH}config/nginx/nginx.service /lib/systemd/system/
+      sed -i -e "s|\$NGINX_PATH|${NGINX_PATH}|g" /lib/systemd/system/nginx.service 
       
     # Install modules (the ones that don't install via include) 
     # TODO:: install lua modules (if needed)
@@ -197,8 +210,6 @@ function post_install_nginx() {
     # Set init.d service
     # TODO:: auto start
 
-    # Update.rc
-    update-rc.d -f nginx defaults
     # Restart ctl daemon
     systemctl daemon-reload
 }
