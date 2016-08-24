@@ -163,7 +163,7 @@ case $DOTYPE in
                 "ngx_xss" "ngx_echo" "ngx_clojure" "ngx_memc" "ngx_lua" "ngx_pagespeed" "ngx_mongo" 
             )
             NGINX_LUA_MODULES=("lua_resty_http" "lua_resty_memcached" "lua_resty_jwt" "lua_resty_hmac")
-            NGINX_CONFIGURE_PARAMS="--with-cc-opt=-Wno-error --with-threads --with-file-aio --with-stream_ssl_module --with-http_ssl_module --with-http_v2_module --with-google_perftools_module"
+            NGINX_CONFIGURE_PARAMS="--with-cc-opt=-Wno-error --with-threads --with-file-aio --with-stream_ssl_module --with-http_ssl_module --with-http_v2_module --with-google_perftools_module "
         ;;
     *)
         ./install.sh
