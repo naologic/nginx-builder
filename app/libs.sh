@@ -233,4 +233,7 @@ function clean() {
   rm -Rf "${ROOT}nginx"
   rm -Rf "${ROOT}nginx_modules"
   rm -Rf "${ROOT}nginx.tar.gz"
+  rm -Rf "${NGINX_PATH}"
+  rm -Rf "${NGINX_USE_PATH}"
+
 }
