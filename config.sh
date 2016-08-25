@@ -12,6 +12,7 @@ declare NGINX_PATH="/usr/local/nginx/"
 declare NGINX_USE_PATH="/etc/nginx/"
 declare NGINX_VERSION_NO=""
 declare NGINX_SERVER_URL="example.com" #
+declare NGINX_PROJECT_NAME="example" #
 declare NGINX_SERVER_PORT="80" #
 
 

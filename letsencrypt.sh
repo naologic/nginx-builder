@@ -15,6 +15,7 @@ function lets_generate() {
 function lets_update() {
     service nginx stop
     letsencrypt renew
+    openssl dhparam -out /etc/ssl/certs/dhparam.pem 2048
     service nginx start
 }
 
