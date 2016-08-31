@@ -199,7 +199,7 @@ function post_install_nginx() {
         sed -i -e "s|\$NGINX_PATH|${NGINX_PATH}|g" ${NGINX}nginx.conf
         sed -i -e "s|\$NGINX_USE_PATH|${NGINX_USE_PATH}|g" ${NGINX}nginx.conf
 
-
+    mkdir -p /usr/lib/systemd/system/
     # Service file for nginx
       cp -f ${SCRIPT_PATH}config/nginx/nginx.service /lib/systemd/system/
       sed -i -e "s|\$NGINX_PATH|${NGINX_PATH}|g" /lib/systemd/system/nginx.service 
