@@ -64,10 +64,7 @@ DOTYPE=${2}
 [ -d "$BUILD" ] || mkdir -p $BUILD
 
 # Make everything exectuable
-chmod -R 0755 app
-chmod -R 0755 app/installers
-chmod -R 0755 app/module_deps
-chmod -R 0755 app/tests
+chmod u+x **/*.sh app/**/*.sh app/installers/*.sh app/module_deps/*.sh app/tests/*.sh
 
 function deps() {
     local -A DEPS_INSTALL="build-essential autogen automake autoconf autotools-dev libreadline-dev libncurses5-dev libpcre3 libpcre3-dev libpng-dev zlib1g-dev libssl-dev openssl git  perl libtool tar unzip  xutils-dev"
