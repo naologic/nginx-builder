@@ -142,6 +142,7 @@ function make_nginx() {
               # Check: if module has extra things to run and run it(ex: pagespeed)
               # SH: takes 1 param:: path to install to
               if [ -f ${SCRIPT_PATH}app/module_deps/${MODULE}-install.sh ]; then
+                  chmod u+x ${SCRIPT_PATH}app/module_deps/${MODULE}-install.sh
                   . ${SCRIPT_PATH}app/module_deps/${MODULE}-install.sh $file/
               fi  
               # Set configure parameters
