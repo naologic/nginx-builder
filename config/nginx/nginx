@@ -32,7 +32,7 @@ NGINX_CONF_FILE=${NGINX_CONF_FILE:-$NGINX_USE_PATHnginx.conf} # config file path
 
 PIDNAME=${PIDNAME:-"nginx"}                   # lets you do $PS-slave
 PIDFILE=${PIDFILE:-$PIDNAME.pid}              # pid file
-PIDSPATH=${PIDSPATH:-$NGINXPATH/logs}         # default pid location, you should change it
+PIDSPATH=${PIDSPATH:-$NGINXPATHlogs}         # default pid location, you should change it
 RUNAS=${RUNAS:-root}                          # user to run as
 
 SCRIPT_OK=0           # ala error codes
