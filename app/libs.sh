@@ -208,12 +208,12 @@ function post_install_nginx() {
         # Restart ctl daemon
          systemctl daemon-reload
     fi
-    if [ $DISTRO_VERSION -eq "15.04" ] || [ $DISTRO_VERSION -eq "15.10" ] ; then
+    # if [ $DISTRO_VERSION -eq "15.04" ] || [ $DISTRO_VERSION -eq "15.10" ] ; then
 
-    fi
-    if [ $DISTRO_VERSION -eq "14.04" ] || [ $DISTRO_VERSION -eq "14.10" ] ; then
+    # fi
+    # if [ $DISTRO_VERSION -eq "14.04" ] || [ $DISTRO_VERSION -eq "14.10" ] ; then
 
-    fi
+    # fi
     
       
     # Install modules (the ones that don't install via include) 
