@@ -30,7 +30,8 @@ declare NGINX_INSTALL_MODULES
 declare NGINX_LUA_MODULES
 declare NGINX_CONFIGURE
 declare NGINX_CONFIGURE_PARAMS
- 
+
+declare DISTRO_VERSION=$(lsb_release -sr)
 
 
 # Default: build params

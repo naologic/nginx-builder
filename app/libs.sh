@@ -197,13 +197,24 @@ function post_install_nginx() {
     cp -f ${SCRIPT_PATH}config/nginx/nginx /etc/init.d/nginx
     chmod +x /etc/init.d/nginx
       # Paths 
-        sed -i -e "s|\$NGINX_PATH|${NGINX_PATH}|g" ${NGINX}nginx.conf
-        sed -i -e "s|\$NGINX_USE_PATH|${NGINX_USE_PATH}|g" ${NGINX}nginx.conf
+        sed -i -e "s|\$NGINX_PATH|${NGINX_PATH}|g" /etc/init.d/nginx
+        sed -i -e "s|\$NGINX_USE_PATH|${NGINX_USE_PATH}|g" /etc/init.d/nginx
 
-    mkdir -p /usr/lib/systemd/system/
-    # Service file for nginx
-      cp -f ${SCRIPT_PATH}config/nginx/nginx.service /lib/systemd/system/
-      sed -i -e "s|\$NGINX_PATH|${NGINX_PATH}|g" /lib/systemd/system/nginx.service 
+    if [ $DISTRO_VERSION -eq "16.04" ] || [ $DISTRO_VERSION -eq "16.10" ] ; then 
+        mkdir -p /usr/lib/systemd/system/
+        # Service file for nginx
+          cp -f ${SCRIPT_PATH}config/nginx/nginx.service /lib/systemd/system/
+          sed -i -e "s|\$NGINX_PATH|${NGINX_PATH}|g" /lib/systemd/system/nginx.service 
+        # Restart ctl daemon
+         systemctl daemon-reload
+    fi
+    if [ $DISTRO_VERSION -eq "15.04" ] || [ $DISTRO_VERSION -eq "15.10" ] ; then
+
+    fi
+    if [ $DISTRO_VERSION -eq "14.04" ] || [ $DISTRO_VERSION -eq "14.10" ] ; then
+
+    fi
+    
       
     # Install modules (the ones that don't install via include) 
     # TODO:: install lua modules (if needed)
@@ -211,8 +222,8 @@ function post_install_nginx() {
     # Set init.d service
     # TODO:: auto start
 
-    # Restart ctl daemon
-    systemctl daemon-reload >/dev/null 2>&1
+
+    chmod u+x /etc/init.d/nginx
 }
 
 function create_installed_file() {
