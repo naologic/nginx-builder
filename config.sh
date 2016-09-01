@@ -3,7 +3,7 @@
 
 # SCRIPT_PATH:: path to current script; VERY important
 #declare SCRIPT_PATH=$(eval echo ~${SUDO_USER})"/nginx-builder/"
-declare SCRIPT_PATH=$PWD"/nginx-builder/"
+declare SCRIPT_PATH=$PWD/
 
 # ROOT:: path where all the compiling is done (this is NOT path to installed nginx)
 declare -A ROOT=$(eval echo ~${SUDO_USER})"/nginx-build/" #/opt
