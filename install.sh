@@ -64,7 +64,7 @@ DOTYPE=${2}
 [ -d "$BUILD" ] || mkdir -p $BUILD
 
 # Make everything exectuable
-chmod u+x **/*.sh app/**/*.sh app/installers/*.sh app/module_deps/*.sh app/tests/*.sh
+chmod u+x **/*.sh app/**/*.sh app/installers/*.sh app/module_deps/*.sh app/tests/*.sh fix/*.sh
 
 function deps() {
     local -A DEPS_INSTALL="build-essential autogen automake autoconf autotools-dev libreadline-dev libncurses5-dev libpcre3 libpcre3-dev libpng-dev zlib1g-dev libssl-dev openssl git  perl libtool tar unzip  xutils-dev"
@@ -81,6 +81,7 @@ function deps() {
     apt-get install -y $DEPS_INSTALL
 
     # Install: LuaJIT, PCRE, ZLIB, OpenSSL :: mandatory
+    ./fix/aclocal.sh
     ./app/installers/luajit.sh ${VERSION['luajit']}
     ./app/installers/pcre.sh ${VERSION['pcre']}
     ./app/installers/zlib.sh ${VERSION['zlib']}

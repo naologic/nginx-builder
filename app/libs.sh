@@ -179,7 +179,7 @@ function post_install_nginx() {
     cp -Rf ${ROOT}nginx_lua_dynamic_modules/* ${NGINX}lua_modules/
 
     # Copy main config file
-    cp -f ${SCRIPT_PATH}config/* ${NGINX}
+    cp -f ${SCRIPT_PATH}config/nginx/* ${NGINX}
     chmod +x ${NGINX}nginx.conf
       # Paths
       sed -i -e "s|\$NGINX_PATH|${NGINX_PATH}|g" ${NGINX}nginx.conf
@@ -212,7 +212,7 @@ function post_install_nginx() {
     # TODO:: auto start
 
     # Restart ctl daemon
-    systemctl daemon-reload
+    systemctl daemon-reload >/dev/null 2>&1
 }
 
 function create_installed_file() {
