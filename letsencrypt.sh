@@ -1,23 +1,35 @@
 #!/bin/bash
 
 . config.sh
-
+. app/colors.sh 
 
 # Install: let's encrypt certbot
-apt-get install -y letsencrypt 
 
-function lets_generate() {
+
+#function pre_install() {}
+function install() {
+    git clone https://github.com/letsencrypt/letsencrypt /opt/letsencrypt
+}
+function post_install() {
     # I need port :80
-    service nginx stop    
-    # Run: generate certificate 
-    letsencrypt certonly --standalone -d ${NGINX_SERVER_URL} -d www.${NGINX_SERVER_URL}
-}
-function lets_update() {
     service nginx stop
-    letsencrypt renew
-    openssl dhparam -out /etc/ssl/certs/dhparam.pem 2048
-    service nginx start
+}
+function install_configs() {
+    # Run: generate certificate 
+    [ ! -f /etc/letsencrypt/renewal/${SRV_URL}.conf ] && {
+        /bin/bash /opt/letsencrypt/letsencrypt-auto certonly --standalone -d ${SRV_URL}
+        service nginx stop
+        openssl dhparam -out /etc/ssl/certs/dhparam.pem 2048
+        service nginx start
+    }
+}
+function install_services() {
+    # install cron
+    local CRON="/bin/bash /opt/letsencrypt/letsencrypt-auto renew --force-renewal"
+    ( crontab -l | grep -v "$CRON" ; echo "0 0 1 * * ${CRON}" ) | crontab -
 }
 
-lets_generate
-lets_update
+install
+post_install
+install_configs
+install_services
