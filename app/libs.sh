@@ -197,8 +197,8 @@ function post_install_nginx() {
     cp -f ${SCRIPT_PATH}config/nginx/nginx /etc/init.d/nginx
     chmod +x /etc/init.d/nginx
       # Paths 
-        sed -i -e "s|\$NGINX_PATH|${NGINX_PATH}|g" /etc/init.d/nginx
-        sed -i -e "s|\$NGINX_USE_PATH|${NGINX_USE_PATH}|g" /etc/init.d/nginx
+        sed -i -e "s|\$REPLACE_NGINX_PATH|${NGINX_PATH}|g" /etc/init.d/nginx
+        sed -i -e "s|\$REPLACE_NGINX_USE_PATH|${NGINX_USE_PATH}|g" /etc/init.d/nginx
 
     if [ $DISTRO_VERSION -eq "16.04" ] || [ $DISTRO_VERSION -eq "16.10" ] ; then 
         mkdir -p /usr/lib/systemd/system/
