@@ -21,7 +21,8 @@ declare -A BUILD="${ROOT}build/"
 
 declare -A VERSION=(['luajit']='2.0.4' ['nginx']='1.11.5' ['pcre']='8.39' ['zlib']='1.2.8' ['openssl']='1.0.2f')
 # ./configure default settings
-declare -A DEFAULT_CONFIGURE_PARAMS="--with-debug "
+#declare -A DEFAULT_CONFIGURE_PARAMS="--with-debug "
+declare -A DEFAULT_CONFIGURE_PARAMS=" "
 declare -A DEBUG=true
 
 # Nginx config params
