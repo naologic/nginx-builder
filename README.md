@@ -48,3 +48,16 @@ _This is still in dev mode. Feel free to report bugs and use `ONLY` from `./inst
 
 
 *** more to come ***
+
+
+------
+
+## :computer: Contributors 
+
+|    | Nume | Rol | 
+----- | ---- | ------- | -------:
+:boy:  |  Gabriel  | Owner | 
+:boy:  |  Marvin  | Coder | 
+----------
+
+**From Paris with :heart: **
