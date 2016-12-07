@@ -33,6 +33,8 @@ chmod +x install.sh
 sudo ./install.sh --full --steroids
 ```
 
+> Very important: check that /config.sh has the correct paths for `SCRIPT_PATH` and `ROOT` variables
+
 
 ## Modules
 ``` 
