@@ -39,4 +39,10 @@ declare DISTRO_VERSION=$(lsb_release -sr)
 DEFAULT_CONFIGURE_PARAMS+="--prefix=${NGINX_PATH} --sbin-path=sbin/nginx --conf-path=nginx.conf --pid-path=logs/nginx.pid --user=www-data "
 DEFAULT_CONFIGURE_PARAMS+="--with-pcre=../pcre --with-zlib=../zlib "
 DEFAULT_CONFIGURE_PARAMS+="--with-http_realip_module  --with-http_gzip_static_module --with-stream "
+DEFAULT_CONFIGURE_PARAMS+="--with-stream_ssl_preread_module --with-compat "
+DEFAULT_CONFIGURE_PARAMS+="--with-file-aio --with-threads --with-http_addition_module --with-http_auth_request_module "
+DEFAULT_CONFIGURE_PARAMS+="--with-http_dav_module --with-http_flv_module --with-http_mp4_module --with-http_random_index_module "
+DEFAULT_CONFIGURE_PARAMS+="--with-http_secure_link_module --with-http_slice_module --with-http_ssl_module --with-http_stub_status_module "
+DEFAULT_CONFIGURE_PARAMS+="--with-http_sub_module --with-http_v2_module --with-mail --with-mail_ssl_module "
+DEFAULT_CONFIGURE_PARAMS+="--with-stream_realip_module --with-stream_ssl_module "
 
