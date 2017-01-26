@@ -199,7 +199,10 @@ function post_install_nginx() {
       # Paths 
         sed -i -e "s|\$REPLACE_NGINX_PATH|${NGINX_PATH}|g" /etc/init.d/nginx
         sed -i -e "s|\$REPLACE_NGINX_USE_PATH|${NGINX_USE_PATH}|g" /etc/init.d/nginx
-
+    # Touch: pid
+    touch /run/nginx.pid
+    chmod 0770 /run/nginx.pid
+    
     if [ $DISTRO_VERSION = "16.04" ] || [ $DISTRO_VERSION = "16.10" ] ; then 
         mkdir -p /usr/lib/systemd/system/
         # Service file for nginx
