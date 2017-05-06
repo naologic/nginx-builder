@@ -88,10 +88,6 @@ function configure_lua_modules() {
   fi
 }
 
-## not tested
-## not tested
-## not tested
-## not tested
 function configure_nginx_patches() {
   [ $# -eq 0 ] && { run_error "Usage: configure_nginx_patches <module_name>"; exit; }  
   local WORKDIR="${ROOT}nginx_patches/"
